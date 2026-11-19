@@ -144,13 +144,21 @@ function actualizarContadorCarrito() {
         return total + producto.cantidad;
     }, 0);
 
+    const cantidadAnterior = Number(contador.textContent) || 0;
+
     contador.textContent = cantidadTotal;
     contador.hidden = cantidadTotal === 0;
+
+    // Si se agregó algo, el contador "late" para que se note
+    if (cantidadTotal > cantidadAnterior) {
+        contador.classList.remove("latido");
+        void contador.offsetWidth;
+        contador.classList.add("latido");
+    }
 }
 
-function actualizarBotonProducto(tarjeta, cantidad) {
-    const boton = tarjeta.querySelector(".btn-agregar-carrito");
-
+// Dibuja un botón como "Agregar" o como "− cantidad +"
+function dibujarBotonCantidad(boton, cantidad) {
     if (!boton) {
         return;
     }
@@ -169,21 +177,57 @@ function actualizarBotonProducto(tarjeta, cantidad) {
     `;
 }
 
+function cantidadEnCarrito(nombre) {
+    const producto = carrito.find(function(item) {
+        return item.nombre === nombre;
+    });
+
+    return producto ? producto.cantidad : 0;
+}
+
 function actualizarBotonesProductos() {
+    // Productos destacados
     botonesAgregar.forEach(function(boton) {
         const tarjeta = boton.closest(".card");
 
-        if (!tarjeta) {
-            return;
+        if (tarjeta) {
+            dibujarBotonCantidad(boton, cantidadEnCarrito(obtenerNombreProducto(tarjeta)));
+        }
+    });
+
+    // Ofertas del carrusel
+    document.querySelectorAll(".tarjeta-promocion").forEach(function(tarjeta) {
+        const nombre = tarjeta.querySelector("h3")?.textContent.trim() ?? "";
+        dibujarBotonCantidad(tarjeta.querySelector(".btn-promocion-agregar"), cantidadEnCarrito(nombre));
+    });
+}
+
+// Suma o resta según dónde se tocó el botón ("+", "−" o "Agregar")
+function manejarClicCantidad(event, nombre, precio, imagen) {
+    const producto = carrito.find(function(item) {
+        return item.nombre === nombre;
+    });
+
+    if (event.target.closest(".btn-cantidad-restar")) {
+        if (producto) {
+            producto.cantidad--;
+
+            if (producto.cantidad <= 0) {
+                carrito.splice(carrito.indexOf(producto), 1);
+            }
         }
 
-        const nombre = obtenerNombreProducto(tarjeta);
-        const producto = carrito.find(function(item) {
-            return item.nombre === nombre;
-        });
+        mostrarCarrito();
+        return;
+    }
 
-        actualizarBotonProducto(tarjeta, producto ? producto.cantidad : 0);
-    });
+    if (producto) {
+        producto.cantidad++;
+        mostrarCarrito();
+        return;
+    }
+
+    agregarProductoAlCarrito(nombre, precio, imagen);
 }
 
 function mostrarCarrito() {
@@ -301,36 +345,12 @@ botonesAgregar.forEach(function(boton) {
             return;
         }
 
-        const nombre = obtenerNombreProducto(tarjeta);
-        const producto = carrito.find(function(item) {
-            return item.nombre === nombre;
-        });
-
-        if (event.target.closest(".btn-cantidad-restar")) {
-            if (producto) {
-                producto.cantidad--;
-
-                if (producto.cantidad <= 0) {
-                    carrito.splice(carrito.indexOf(producto), 1);
-                }
-            }
-
-            mostrarCarrito();
-            return;
-        }
-
-        if (event.target.closest(".btn-cantidad-sumar")) {
-            if (producto) {
-                producto.cantidad++;
-            } else {
-                agregarProductoAlCarrito(nombre, obtenerPrecioOferta(tarjeta), obtenerImagenProducto(tarjeta));
-            }
-
-            mostrarCarrito();
-            return;
-        }
-
-        agregarProductoAlCarrito(nombre, obtenerPrecioOferta(tarjeta), obtenerImagenProducto(tarjeta));
+        manejarClicCantidad(
+            event,
+            obtenerNombreProducto(tarjeta),
+            obtenerPrecioOferta(tarjeta),
+            obtenerImagenProducto(tarjeta)
+        );
     });
 });
 
@@ -367,12 +387,12 @@ document.querySelectorAll(".tarjeta-promocion").forEach(function(tarjeta) {
     }
 
     // "Agregar" de las ofertas suma al mismo carrito
-    tarjeta.querySelector(".btn-promocion-agregar")?.addEventListener("click", function() {
+    tarjeta.querySelector(".btn-promocion-agregar")?.addEventListener("click", function(event) {
         const nombre = tarjeta.querySelector("h3")?.textContent.trim() ?? "";
         const precio = oferta?.textContent.trim() ?? "$0";
         const imagen = tarjeta.querySelector("img")?.getAttribute("src") ?? "";
 
-        agregarProductoAlCarrito(nombre, precio, imagen);
+        manejarClicCantidad(event, nombre, precio, imagen);
     });
 });
 

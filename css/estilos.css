@@ -862,7 +862,8 @@ header {
     background-color: white;
 }
 
-.btn-agregar-carrito.control-cantidad {
+.btn-agregar-carrito.control-cantidad,
+.btn-promocion-agregar.control-cantidad {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -870,11 +871,13 @@ header {
     padding: 8px 12px;
 }
 
-.btn-agregar-carrito.control-cantidad span {
+.btn-agregar-carrito.control-cantidad span,
+.btn-promocion-agregar.control-cantidad span {
     min-width: 28px;
 }
 
-.btn-agregar-carrito.control-cantidad .cantidad-producto {
+.btn-agregar-carrito.control-cantidad .cantidad-producto,
+.btn-promocion-agregar.control-cantidad .cantidad-producto {
     font-weight: 700;
 }
 
@@ -968,4 +971,13 @@ header {
 
 .carrito-total strong {
     color: #236558;
+}
+
+/* El contador del carrito "late" al agregar algo */
+@keyframes latido {
+    50% { transform: scale(1.4); }
+}
+
+#contadorCarrito.latido {
+    animation: latido 0.35s ease;
 }
