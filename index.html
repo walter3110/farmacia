@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <!-- Nuestro CSS -->
-<link rel="stylesheet" href="css/estilos.css?v=3">
+<link rel="stylesheet" href="css/estilos.css?v=4">
 
 
 </head>
@@ -112,30 +112,117 @@
     </div>
 
 </nav>
-<section class="container mt-4">
+<section class="container mt-4" aria-label="Promociones">
 
-    <div class="hero">
+    <div class="grilla-banners">
 
-        <div class="hero-contenido">
-            <p class="hero-etiqueta">Cuidarte también es una rutina</p>
-
-            <h2>Bienestar para todos tus días</h2>
-
-            <p>
-                Encontrá productos seleccionados para tu salud,
-                cuidado personal y los pequeños momentos de bienestar.
-            </p>
-
-            <a href="#productos-destacados" class="btn btn-hero">
-                Explorar productos
+        <!-- Columna izquierda -->
+        <div class="banners-laterales">
+            <a class="banner-chico banner-rosa" href="categoria.html?c=skin-care">
+                <div class="banner-texto">
+                    <span class="banner-volanta">Rutinas para tu piel</span>
+                    <strong>Skin Care</strong>
+                    <span class="banner-boton">Ver más</span>
+                </div>
+                <img src="imagen/crema.webp" alt="">
+            </a>
+            <a class="banner-chico banner-dorado" href="categoria.html?c=cuidado-personal">
+                <div class="banner-texto">
+                    <span class="banner-volanta">Cuidado del cabello</span>
+                    <strong>Shampoo y más</strong>
+                    <span class="banner-boton">Ver más</span>
+                </div>
+                <img src="imagen/shampo.jpg" alt="">
             </a>
         </div>
 
-        <div class="hero-dato" aria-label="Beneficio de compra">
-            <span>01</span>
-            <strong>Elegí con calma</strong>
-            <p>Una selección simple para resolver lo importante.</p>
+        <!-- Banner grande que va cambiando -->
+        <div class="carrusel-principal" id="carruselPrincipal" aria-roledescription="carrusel" aria-label="Destacados">
+            <div class="diapositivas">
+
+                <a class="diapositiva activa diapo-celeste" href="categoria.html?c=ofertas" aria-label="Ofertas de la semana">
+                    <div class="diapo-texto">
+                        <span class="diapo-fecha">Ofertas de la semana</span>
+                        <h2>Cuidarte cuesta menos</h2>
+                        <p class="diapo-gigante">Hasta <b>39%</b> OFF</p>
+                        <span class="diapo-boton">Ver ofertas</span>
+                    </div>
+                    <div class="diapo-imagenes">
+                        <img src="imagen/shampo.jpg" alt="">
+                        <img src="imagen/crema.webp" alt="">
+                        <img src="imagen/jabon.webp" alt="">
+                    </div>
+                </a>
+
+                <a class="diapositiva diapo-rosa" href="categoria.html?c=bebes" aria-label="Productos para bebés">
+                    <div class="diapo-texto">
+                        <span class="diapo-fecha">Bebés</span>
+                        <h2>Todo para tu bebé</h2>
+                        <p class="diapo-gigante"><b>20%</b> OFF en pañales</p>
+                        <span class="diapo-boton">Ver productos</span>
+                    </div>
+                    <div class="diapo-imagenes">
+                        <img src="imagen/pañales.webp" alt="">
+                    </div>
+                </a>
+
+                <a class="diapositiva diapo-verde" href="categoria.html?c=dermocosmetica" aria-label="Dermocosmética">
+                    <div class="diapo-texto">
+                        <span class="diapo-fecha">Dermocosmética</span>
+                        <h2>Hidratación para todos los días</h2>
+                        <p class="diapo-gigante">Tu piel, <b>primero</b></p>
+                        <span class="diapo-boton">Descubrir</span>
+                    </div>
+                    <div class="diapo-imagenes">
+                        <img src="imagen/crema.webp" alt="">
+                    </div>
+                </a>
+
+                <a class="diapositiva diapo-lila" href="categoria.html?c=higiene" aria-label="Higiene">
+                    <div class="diapo-texto">
+                        <span class="diapo-fecha">Higiene</span>
+                        <h2>Lo de todos los días, al mejor precio</h2>
+                        <p class="diapo-gigante">Desde <b>$3.500</b></p>
+                        <span class="diapo-boton">Ver productos</span>
+                    </div>
+                    <div class="diapo-imagenes">
+                        <img src="imagen/jabon.webp" alt="">
+                        <img src="imagen/shampo.jpg" alt="">
+                    </div>
+                </a>
+
+            </div>
+
+            <button class="carrusel-flecha anterior" type="button" aria-label="Anterior">
+                <i class="bi bi-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button class="carrusel-flecha siguiente" type="button" aria-label="Siguiente">
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            </button>
+
+            <div class="carrusel-puntos" role="tablist" aria-label="Elegir banner"></div>
         </div>
+
+        <!-- Columna derecha -->
+        <div class="banners-laterales">
+            <a class="banner-chico banner-celeste" href="categoria.html?c=dermocosmetica">
+                <div class="banner-texto">
+                    <span class="banner-volanta">La rutina que tu piel necesita</span>
+                    <strong>Dermocosmética</strong>
+                    <span class="banner-boton">Comprar</span>
+                </div>
+                <img src="imagen/crema.webp" alt="">
+            </a>
+            <a class="banner-chico banner-rosa" href="categoria.html?c=bebes">
+                <div class="banner-texto">
+                    <span class="banner-volanta">Bebés</span>
+                    <strong>Hasta 20% OFF</strong>
+                    <span class="banner-boton">Ver más</span>
+                </div>
+                <img src="imagen/pañales.webp" alt="">
+            </a>
+        </div>
+
     </div>
 
 </section>
@@ -505,7 +592,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Nuestro JavaScript -->
-<script src="js/script.js?v=3"></script>
+<script src="js/script.js?v=4"></script>
+<script src="js/banners.js?v=4"></script>
 
 
 </body>

@@ -1041,3 +1041,337 @@ header {
     font-size: 2.5rem;
     color: #7fac78;
 }
+
+/* =========================
+   BANNERS DE LA PORTADA
+   ========================= */
+
+.grilla-banners {
+    display: grid;
+    grid-template-columns: 1fr 2.1fr 1fr;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.banners-laterales {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+}
+
+/* ---------- Banners chicos ---------- */
+
+.banner-chico {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 170px;
+    padding: 18px;
+    overflow: hidden;
+    border-radius: 12px;
+    color: #17463d;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.banner-chico:hover {
+    color: #17463d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(23, 70, 61, 0.15);
+}
+
+.banner-texto {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.banner-volanta {
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.banner-texto strong {
+    font-size: 1.35rem;
+    line-height: 1.1;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.banner-boton {
+    margin-top: 10px;
+    padding: 4px 14px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.banner-chico img {
+    width: 42%;
+    max-height: 140px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.banner-rosa { background: linear-gradient(135deg, #f7d6dc 0%, #fbeaed 100%); }
+.banner-dorado { background: linear-gradient(135deg, #e9d6a8 0%, #f6ecd2 100%); }
+.banner-celeste { background: linear-gradient(135deg, #cde9f2 0%, #e8f5f9 100%); }
+
+/* ---------- Banner grande que cambia ---------- */
+
+.carrusel-principal {
+    position: relative;
+    min-height: 360px;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.diapositivas {
+    position: absolute;
+    inset: 0;
+}
+
+.diapositiva {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 32px 56px 48px;
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.02);
+    transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
+}
+
+.diapositiva.activa {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.diapositiva:hover {
+    color: #ffffff;
+}
+
+.diapo-celeste { background: linear-gradient(135deg, #2bb3c9 0%, #5fd0de 100%); }
+.diapo-rosa { background: linear-gradient(135deg, #e0718a 0%, #f2a3b3 100%); }
+.diapo-verde { background: linear-gradient(135deg, #236558 0%, #4c9a7f 100%); }
+.diapo-lila { background: linear-gradient(135deg, #7d6bc2 0%, #a99ae0 100%); }
+
+.diapo-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 55%;
+}
+
+.diapo-fecha {
+    margin-bottom: 14px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background-color: #e8642c;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.diapo-texto h2 {
+    margin: 0 0 6px;
+    font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.diapo-gigante {
+    margin: 0 0 18px;
+    font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+    font-weight: 600;
+}
+
+.diapo-gigante b {
+    font-size: 1.9em;
+    font-weight: 900;
+}
+
+.diapo-boton {
+    padding: 8px 22px;
+    border-radius: 6px;
+    background-color: #e8642c;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+
+.diapositiva:hover .diapo-boton {
+    background-color: #c94f1c;
+}
+
+.diapo-imagenes {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.diapo-imagenes img {
+    max-width: 100%;
+    max-height: 230px;
+    min-width: 0;
+    padding: 12px;
+    border-radius: 14px;
+    background-color: #ffffff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+    object-fit: contain;
+}
+
+.diapo-imagenes img:nth-child(2) { transform: rotate(4deg); }
+.diapo-imagenes img:nth-child(3) { transform: rotate(-4deg); }
+.diapo-imagenes img:only-child { max-height: 260px; }
+
+.diapo-imagenes img:not(:only-child) {
+    flex: 1 1 0;
+    max-height: 170px;
+}
+
+/* Flechas */
+.carrusel-flecha {
+    position: absolute;
+    bottom: 14px;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #17463d;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.carrusel-flecha:hover {
+    background-color: #f1f1f1;
+}
+
+.carrusel-flecha.anterior { right: 64px; }
+.carrusel-flecha.siguiente { right: 16px; }
+
+/* Puntitos */
+.carrusel-puntos {
+    position: absolute;
+    bottom: 22px;
+    left: 56px;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+}
+
+.carrusel-punto {
+    width: 26px;
+    height: 5px;
+    padding: 0;
+    border: none;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.carrusel-punto.activo {
+    width: 52px;
+    background-color: #ffffff;
+}
+
+/* ---------- Tablet: el grande arriba, los chicos abajo ---------- */
+@media (max-width: 991px) {
+    .grilla-banners {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .carrusel-principal {
+        grid-column: 1 / -1;
+        order: -1;
+    }
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 575px) {
+    .grilla-banners {
+        gap: 10px;
+    }
+
+    .banners-laterales {
+        gap: 10px;
+    }
+
+    .carrusel-principal {
+        min-height: 400px;
+    }
+
+    .diapositiva {
+        flex-direction: column;
+        justify-content: center;
+        padding: 24px 20px 64px;
+        text-align: center;
+    }
+
+    .diapo-texto {
+        align-items: center;
+        max-width: 100%;
+    }
+
+    .diapo-imagenes img:only-child { max-height: 150px; }
+    .diapo-imagenes img:not(:only-child) { max-height: 110px; }
+
+    .carrusel-puntos {
+        left: 20px;
+    }
+
+    .banner-chico {
+        flex-direction: column-reverse;
+        min-height: 0;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .banner-texto {
+        align-items: center;
+    }
+
+    .banner-texto strong {
+        font-size: 1rem;
+    }
+
+    .banner-chico img {
+        width: 70%;
+        max-height: 90px;
+    }
+
+    .carrusel-flecha {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .diapositiva,
+    .banner-chico,
+    .carrusel-punto {
+        transition: none;
+    }
+}
