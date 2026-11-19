@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <!-- Nuestro CSS -->
-<link rel="stylesheet" href="css/estilos.css?v=4">
+<link rel="stylesheet" href="css/estilos.css?v=5">
 
 
 </head>
@@ -157,15 +157,48 @@
     <div id="contenidoCarrito">
     </div>
 
+    <form id="formPedido" class="form-pedido" hidden novalidate>
+        <h3>Datos para tu pedido</h3>
+
+        <p class="aviso-retiro">
+            <i class="bi bi-shop" aria-hidden="true"></i>
+            Por ahora los pedidos son para <b>retirar en el local</b>.
+        </p>
+
+        <label for="pedidoNombre">Nombre y apellido</label>
+        <input id="pedidoNombre" name="nombre" type="text" autocomplete="name" maxlength="80" required>
+
+        <label for="pedidoTelefono">Teléfono</label>
+        <input id="pedidoTelefono" name="telefono" type="tel" autocomplete="tel" maxlength="20" placeholder="Ej: 11 2345 6789" required>
+
+        <label for="pedidoPago">¿Cómo vas a pagar?</label>
+        <select id="pedidoPago" name="pago" required></select>
+
+        <label for="pedidoComentario">Comentario <span class="opcional">(opcional)</span></label>
+        <textarea id="pedidoComentario" name="comentario" rows="2" maxlength="300" placeholder="Ej: paso a retirar después de las 18 hs"></textarea>
+
+        <p id="errorPedido" class="error-pedido" role="alert" hidden></p>
+
+        <button type="submit" class="btn-whatsapp">
+            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            Enviar pedido por WhatsApp
+        </button>
+
+        <div id="pedidoEnviado" class="pedido-enviado" hidden>
+            <p>¿Ya enviaste el pedido por WhatsApp? Te vamos a responder para confirmar el stock y cuándo podés pasar.</p>
+            <button type="button" id="btnVaciarCarrito" class="btn-vaciar">Vaciar carrito</button>
+        </div>
+    </form>
+
 </section>
 
 <!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Nuestro JavaScript -->
-<script src="js/productos.js?v=4"></script>
-<script src="js/categoria.js?v=4"></script>
-<script src="js/script.js?v=4"></script>
+<script src="js/productos.js?v=5"></script>
+<script src="js/categoria.js?v=5"></script>
+<script src="js/script.js?v=5"></script>
 
 
 </body>

@@ -944,11 +944,11 @@ header {
 #carrito {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 #contenidoCarrito {
-    flex: 1;
-    overflow-y: auto;
+    flex: 0 0 auto;
 }
 
 .carrito-vacio {
@@ -958,8 +958,6 @@ header {
 }
 
 .carrito-total {
-    position: sticky;
-    bottom: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1374,4 +1372,116 @@ header {
     .carrusel-punto {
         transition: none;
     }
+}
+
+/* =========================
+   FORMULARIO DE PEDIDO (carrito)
+   ========================= */
+
+.form-pedido {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    background-color: #f7faf8;
+}
+
+.form-pedido h3 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+    color: #17463d;
+}
+
+.aviso-retiro {
+    margin: 0 0 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: #e3f1ea;
+    color: #236558;
+    font-size: 0.9rem;
+}
+
+.form-pedido label {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #303030;
+}
+
+.form-pedido .opcional {
+    font-weight: 400;
+    color: #6c757d;
+}
+
+.form-pedido input,
+.form-pedido select,
+.form-pedido textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid #c9d6cf;
+    border-radius: 6px;
+    background-color: #ffffff;
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.form-pedido input:focus,
+.form-pedido select:focus,
+.form-pedido textarea:focus {
+    outline: 2px solid #7fac78;
+    border-color: #7fac78;
+}
+
+.error-pedido {
+    margin: 6px 0 0;
+    color: #b42318;
+    font-size: 0.9rem;
+}
+
+.btn-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #1fa855;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-whatsapp:hover {
+    background-color: #178a45;
+}
+
+.pedido-enviado {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #fff8e1;
+    font-size: 0.9rem;
+}
+
+.pedido-enviado p {
+    margin: 0 0 8px;
+}
+
+.btn-vaciar {
+    padding: 6px 14px;
+    border: 1px solid #c9a227;
+    border-radius: 6px;
+    background-color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.form-pedido[hidden],
+.pedido-enviado[hidden] {
+    display: none;
 }

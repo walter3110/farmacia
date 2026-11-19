@@ -1,3 +1,15 @@
+// ========== DATOS DE LA FARMACIA (cambiar acá) ==========
+// Número de WhatsApp que recibe los pedidos, en formato internacional sin "+", sin 0 y sin 15.
+// Ejemplo Buenos Aires: 54 9 11 + número  ->  "5491112345678"
+const WHATSAPP_PEDIDOS = "5491167568029";
+const NOMBRE_FARMACIA = "Farmacia Herrera Acosta";
+const FORMAS_DE_PAGO = [
+    "Efectivo al retirar",
+    "Débito o crédito al retirar",
+    "Transferencia / Mercado Pago"
+];
+// ========================================================
+
 
 const contenedorCarrito = document.querySelector("#carrito");
 const productos = document.querySelectorAll(".card");
@@ -272,6 +284,11 @@ function mostrarCarrito() {
     }
     contenidoCarrito.innerHTML = contenido;
 
+    const formPedido = document.querySelector("#formPedido");
+    if (formPedido) {
+        formPedido.hidden = carrito.length === 0;
+    }
+
     actualizarContadorCarrito();
     actualizarBotonesProductos();
 
@@ -397,3 +414,117 @@ document.querySelectorAll(".tarjeta-promocion").forEach(function(tarjeta) {
 });
 
 mostrarCarrito();
+
+// ========== ENVIAR PEDIDO POR WHATSAPP ==========
+(function() {
+    const form = document.querySelector("#formPedido");
+
+    if (!form) {
+        return;
+    }
+
+    const CLAVE_DATOS = "farmacia_datos_cliente";
+    const nombre = form.querySelector("#pedidoNombre");
+    const telefono = form.querySelector("#pedidoTelefono");
+    const pago = form.querySelector("#pedidoPago");
+    const comentario = form.querySelector("#pedidoComentario");
+    const error = form.querySelector("#errorPedido");
+    const enviado = form.querySelector("#pedidoEnviado");
+
+    FORMAS_DE_PAGO.forEach(function(forma) {
+        const opcion = document.createElement("option");
+        opcion.value = forma;
+        opcion.textContent = forma;
+        pago.appendChild(opcion);
+    });
+
+    // Recordar nombre y teléfono para la próxima compra
+    try {
+        const datos = JSON.parse(localStorage.getItem(CLAVE_DATOS)) || {};
+        nombre.value = datos.nombre || "";
+        telefono.value = datos.telefono || "";
+        if (FORMAS_DE_PAGO.includes(datos.pago)) {
+            pago.value = datos.pago;
+        }
+    } catch (e) {
+        // sin datos guardados
+    }
+
+    function mostrarError(texto, campo) {
+        error.textContent = texto;
+        error.hidden = false;
+        campo?.focus();
+    }
+
+    function numeroPedido() {
+        const ahora = new Date();
+        const dos = function(n) { return String(n).padStart(2, "0"); };
+        return dos(ahora.getDate()) + dos(ahora.getMonth() + 1) + "-" + Math.random().toString(36).slice(2, 6).toUpperCase();
+    }
+
+    function armarMensaje(numero) {
+        let total = 0;
+        const lineas = carrito.map(function(producto) {
+            const subtotal = convertirPrecio(producto.precio) * producto.cantidad;
+            total += subtotal;
+            return "• " + producto.cantidad + " x " + producto.nombre + " — $" + subtotal.toLocaleString("es-AR");
+        });
+
+        const partes = [
+            "¡Hola " + NOMBRE_FARMACIA + "! Quiero hacer este pedido:",
+            "",
+            "*Pedido N° " + numero + "*",
+            lineas.join("\n"),
+            "",
+            "*Total: $" + total.toLocaleString("es-AR") + "*",
+            "",
+            "Nombre: " + nombre.value.trim(),
+            "Teléfono: " + telefono.value.trim(),
+            "Pago: " + pago.value,
+            "Entrega: Retiro en el local"
+        ];
+
+        if (comentario.value.trim()) {
+            partes.push("Comentario: " + comentario.value.trim());
+        }
+
+        return partes.join("\n");
+    }
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        error.hidden = true;
+
+        if (carrito.length === 0) {
+            return mostrarError("Tu carrito está vacío.");
+        }
+        if (nombre.value.trim().length < 2) {
+            return mostrarError("Escribí tu nombre para saber de quién es el pedido.", nombre);
+        }
+        if (telefono.value.replace(/\D/g, "").length < 8) {
+            return mostrarError("Escribí un teléfono válido para poder avisarte.", telefono);
+        }
+
+        try {
+            localStorage.setItem(CLAVE_DATOS, JSON.stringify({
+                nombre: nombre.value.trim(),
+                telefono: telefono.value.trim(),
+                pago: pago.value
+            }));
+        } catch (e) {
+            // no se pudo guardar, no pasa nada
+        }
+
+        const url = "https://wa.me/" + WHATSAPP_PEDIDOS + "?text=" + encodeURIComponent(armarMensaje(numeroPedido()));
+        window.open(url, "_blank", "noopener");
+        enviado.hidden = false;
+    });
+
+    form.querySelector("#btnVaciarCarrito").addEventListener("click", function() {
+        carrito.splice(0, carrito.length);
+        comentario.value = "";
+        enviado.hidden = true;
+        mostrarCarrito();
+        cerrarCarrito();
+    });
+})();
