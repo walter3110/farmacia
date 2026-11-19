@@ -981,3 +981,63 @@ header {
 #contadorCarrito.latido {
     animation: latido 0.35s ease;
 }
+
+/* =========================
+   PÁGINA DE CATEGORÍA
+   ========================= */
+
+.barra-categorias a.activo {
+    color: #236558;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 3px;
+}
+
+.miga {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.miga a {
+    color: #236558;
+    text-decoration: none;
+}
+
+.miga a:hover {
+    text-decoration: underline;
+}
+
+.cabecera-categoria {
+    margin-bottom: 28px;
+    padding: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #d9ece6 0%, #eef5ec 100%);
+}
+
+.cabecera-categoria h1 {
+    margin: 0 0 6px;
+    color: #17463d;
+    font-weight: 700;
+}
+
+.cabecera-categoria p {
+    margin: 0;
+    color: #4b5f59;
+}
+
+.categoria-vacia {
+    padding: 48px 20px;
+    text-align: center;
+    color: #6c757d;
+}
+
+.categoria-vacia i {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    color: #7fac78;
+}
