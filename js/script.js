@@ -11,7 +11,59 @@ const tarjetasProductos = Array.from(botonesAgregar)
     })
     .filter(Boolean);
 
-const carrito = [];
+const CLAVE_CARRITO = "farmacia_carrito";
+const carrito = cargarCarrito();
+
+// ---------- Guardar el carrito en el navegador ----------
+function cargarCarrito() {
+    try {
+        const guardado = JSON.parse(localStorage.getItem(CLAVE_CARRITO));
+        return Array.isArray(guardado) ? guardado : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function guardarCarrito() {
+    try {
+        localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
+    } catch (error) {
+        // Si el navegador no deja guardar, el carrito sigue funcionando en memoria.
+    }
+}
+
+// Evita que un nombre con < o > rompa el HTML del carrito
+function escaparHtml(texto) {
+    return String(texto).replace(/[&<>"']/g, function(c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+}
+
+// ---------- Abrir y cerrar el carrito ----------
+const panelCarrito = document.querySelector("#carrito");
+const fondoCarrito = document.querySelector("#fondoCarrito");
+
+function abrirCarrito() {
+    mostrarCarrito();
+    panelCarrito?.classList.add("abierto");
+    fondoCarrito?.classList.add("abierto");
+    document.body.style.overflow = "hidden";
+}
+
+function cerrarCarrito() {
+    panelCarrito?.classList.remove("abierto");
+    fondoCarrito?.classList.remove("abierto");
+    document.body.style.overflow = "";
+}
+
+document.querySelector("#btnAbrirCarrito")?.addEventListener("click", abrirCarrito);
+document.querySelector("#btnCerrarCarrito")?.addEventListener("click", cerrarCarrito);
+fondoCarrito?.addEventListener("click", cerrarCarrito);
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        cerrarCarrito();
+    }
+});
 
 function convertirPrecio(texto) {
     return Number(String(texto).replace(/\$/g, "").replace(/\./g, "").replace(",", "."));
@@ -141,11 +193,13 @@ function mostrarCarrito() {
         return;
     }
 
-    let contenido = "<h2>Carrito</h2>";
+    guardarCarrito();
+
+    let contenido = "";
     let total = 0;
 
     if (carrito.length === 0) {
-        contenido += "<p>Tu carrito está vacío.</p>";
+        contenido += '<p class="carrito-vacio">Tu carrito está vacío.</p>';
     } else {
         carrito.forEach(function(producto, indice) {
             const precio = convertirPrecio(producto.precio);
@@ -153,10 +207,10 @@ function mostrarCarrito() {
 
             contenido += `
                 <div class="producto-carrito">
-                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <img src="${escaparHtml(producto.imagen)}" alt="${escaparHtml(producto.nombre)}">
                     <div class="info-producto-carrito">
-                        <h3>${producto.nombre}</h3>
-                        <p>${producto.precio}</p>
+                        <h3>${escaparHtml(producto.nombre)}</h3>
+                        <p>${escaparHtml(producto.precio)}</p>
                         <div class="controles-carrito">
                             <button type="button" class="btn-restar" data-indice="${indice}">−</button>
                             <span>${producto.cantidad}</span>
@@ -169,7 +223,9 @@ function mostrarCarrito() {
         });
     }
 
-    contenido += "<strong>Total: $" + total.toLocaleString("es-AR") + "</strong>";
+    if (carrito.length > 0) {
+        contenido += '<div class="carrito-total"><span>Total</span><strong>$' + total.toLocaleString("es-AR") + "</strong></div>";
+    }
     contenidoCarrito.innerHTML = contenido;
 
     actualizarContadorCarrito();
@@ -278,4 +334,46 @@ botonesAgregar.forEach(function(boton) {
     });
 });
 
-actualizarBotonesProductos();
+// ---------- Carrusel de ofertas ----------
+const pistaPromociones = document.querySelector(".promociones-pista");
+
+document.querySelectorAll(".boton-promocion").forEach(function(boton) {
+    boton.addEventListener("click", function() {
+        if (!pistaPromociones) {
+            return;
+        }
+
+        const tarjeta = pistaPromociones.querySelector(".tarjeta-promocion");
+        const paso = tarjeta ? tarjeta.offsetWidth + 18 : pistaPromociones.clientWidth;
+        const direccion = boton.dataset.promoDireccion === "prev" ? -1 : 1;
+
+        pistaPromociones.scrollBy({ left: paso * direccion, behavior: "smooth" });
+    });
+});
+
+document.querySelectorAll(".tarjeta-promocion").forEach(function(tarjeta) {
+    const anterior = tarjeta.querySelector(".precios-promocion del");
+    const oferta = tarjeta.querySelector(".precios-promocion strong");
+    const etiqueta = tarjeta.querySelector(".precios-promocion span");
+
+    // Calcula el % OFF igual que en los productos destacados
+    if (anterior && oferta && etiqueta) {
+        const precioAnterior = convertirPrecio(anterior.textContent);
+        const precioOferta = convertirPrecio(oferta.textContent);
+
+        if (precioAnterior > 0) {
+            etiqueta.textContent = Math.round(((precioAnterior - precioOferta) / precioAnterior) * 100) + "% OFF";
+        }
+    }
+
+    // "Agregar" de las ofertas suma al mismo carrito
+    tarjeta.querySelector(".btn-promocion-agregar")?.addEventListener("click", function() {
+        const nombre = tarjeta.querySelector("h3")?.textContent.trim() ?? "";
+        const precio = oferta?.textContent.trim() ?? "$0";
+        const imagen = tarjeta.querySelector("img")?.getAttribute("src") ?? "";
+
+        agregarProductoAlCarrito(nombre, precio, imagen);
+    });
+});
+
+mostrarCarrito();

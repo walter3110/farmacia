@@ -715,7 +715,7 @@
 
 /* Encabezado del carrito */
 
-.carrito-header {
+.carrito-cabecera {
     display: flex;
 
     justify-content: space-between;
@@ -730,7 +730,7 @@
 
 /* Título */
 
-.carrito-header h2 {
+.carrito-cabecera h2 {
     margin: 0;
 
     font-size: 22px;
@@ -933,4 +933,39 @@ header {
         padding-left: 8px;
         font-size: 0.8rem;
     }
+}
+/* =========================
+   CARRITO: lista, vacío y total
+   ========================= */
+
+#carrito {
+    display: flex;
+    flex-direction: column;
+}
+
+#contenidoCarrito {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.carrito-vacio {
+    padding: 40px 20px;
+    text-align: center;
+    color: #6c757d;
+}
+
+.carrito-total {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    background-color: #ffffff;
+    font-size: 20px;
+}
+
+.carrito-total strong {
+    color: #236558;
 }
