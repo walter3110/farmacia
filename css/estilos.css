@@ -1819,3 +1819,275 @@ body.carrito-abierto .aviso-agregado {
     margin-bottom: auto;
     padding-bottom: 10px;
 }
+
+/* =========================
+   ESTADO DE TU PEDIDO (pedido.html)
+   ========================= */
+
+.accion-header {
+    text-decoration: none;
+}
+
+.accion-header.activo {
+    border-color: #236558;
+    color: #236558;
+}
+
+.pedido-grilla {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.pedido-panel {
+    padding: 24px;
+    border: 1px solid #e3ebe7;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.pedido-panel h2 {
+    margin: 0 0 14px;
+    font-size: 1.2rem;
+    color: #17463d;
+}
+
+.pedido-gracias {
+    margin: 0;
+    color: #7fac78;
+    font-weight: 700;
+}
+
+.pedido-estado h1 {
+    margin: 4px 0 2px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #17463d;
+}
+
+.pedido-fecha {
+    margin: 0 0 22px;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Pasos */
+.pasos-pedido {
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+}
+
+.paso {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    padding-bottom: 20px;
+    color: #8a9590;
+}
+
+.paso:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: 34px;
+    bottom: 2px;
+    left: 16px;
+    width: 2px;
+    background-color: #dfe7e3;
+}
+
+.paso.hecho:not(:last-child)::before {
+    background-color: #7fac78;
+}
+
+.paso-icono {
+    flex: 0 0 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #dfe7e3;
+    border-radius: 50%;
+    background-color: #ffffff;
+    font-weight: 700;
+}
+
+.paso strong {
+    display: block;
+    margin-top: 5px;
+}
+
+.paso p {
+    margin: 2px 0 0;
+    font-size: 0.9rem;
+}
+
+.paso.hecho {
+    color: #303030;
+}
+
+.paso.hecho .paso-icono {
+    border-color: #7fac78;
+    background-color: #7fac78;
+    color: #ffffff;
+}
+
+.paso.actual {
+    color: #17463d;
+}
+
+.paso.actual .paso-icono {
+    border-color: #e8642c;
+    color: #e8642c;
+    animation: latido-paso 1.6s ease-in-out infinite;
+}
+
+@keyframes latido-paso {
+    50% { box-shadow: 0 0 0 6px rgba(232, 100, 44, 0.15); }
+}
+
+.pedido-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pedido-acciones .btn-whatsapp,
+.pedido-acciones .btn-seguir-comprando {
+    margin: 0;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Resumen */
+.lista-pedido {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lista-pedido li {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid #eef2f0;
+}
+
+.lp-cantidad {
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: #236558;
+}
+
+.lp-nombre {
+    flex: 1;
+}
+
+.lp-nombre small {
+    display: block;
+    color: #8a9590;
+    font-size: 0.75rem;
+}
+
+.lp-subtotal {
+    font-weight: 600;
+}
+
+.pedido-total {
+    padding: 14px 0;
+    border-top: none;
+}
+
+.datos-pedido {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 14px;
+    margin: 10px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid #eef2f0;
+    font-size: 0.95rem;
+}
+
+.datos-pedido dt {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.datos-pedido dd {
+    margin: 0;
+}
+
+/* Pedidos anteriores */
+.pedidos-anteriores {
+    margin-top: 20px;
+}
+
+.pedidos-anteriores ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pedidos-anteriores a {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eef2f0;
+    color: #303030;
+    text-decoration: none;
+}
+
+.pedidos-anteriores a:hover strong {
+    text-decoration: underline;
+}
+
+.pedidos-anteriores a span {
+    flex: 1;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 991px) {
+    .pedido-grilla {
+        grid-template-columns: 1fr;
+    }
+
+    .pedido-panel {
+        padding: 18px;
+    }
+
+    /* En el celular, si ya hizo pedidos, se ve el acceso a "Estado del pedido" */
+    body.hay-pedidos .acciones-header .accion-pedidos:not(#btnAbrirCarrito) {
+        display: inline-flex;
+        min-height: 46px;
+        padding: 8px 12px;
+    }
+}
+
+.accion-pedidos .texto-corto {
+    display: none;
+}
+
+@media (max-width: 575px) {
+    body.hay-pedidos .acciones-header .accion-pedidos .texto-largo {
+        display: none;
+    }
+
+    body.hay-pedidos .acciones-header .accion-pedidos .texto-corto {
+        display: inline;
+    }
+
+    body.hay-pedidos .acciones-header .accion-pedidos:not(#btnAbrirCarrito),
+    #btnAbrirCarrito {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .paso.actual .paso-icono {
+        animation: none;
+    }
+}

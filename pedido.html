@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Estado de tu pedido | Farmacia Herrera Acosta</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Nuestro CSS -->
+<link rel="stylesheet" href="css/estilos.css?v=8">
+
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container">
+
+        <div class="row align-items-center py-3 fila-header">
+
+            <!-- Logo -->
+            <div class="col-lg-3">
+                <a class="marca" href="index.html" aria-label="Farmacia Herrera Acosta, inicio">
+                    <img class="marca-simbolo" src="imagen/logo-trebol.png" alt="">
+                    <span>
+                        <strong>Herrera Acosta</strong>
+                        <small>Farmacia &amp; bienestar</small>
+                    </span>
+                </a>
+            </div>
+
+            <!-- Buscador -->
+            <div class="col-lg-5">
+
+                <form id="formularioBusqueda">
+                    <div class="input-group">
+
+                        <input 
+                            id="campoBusqueda"
+                            type="search" 
+                            class="form-control" 
+                            placeholder="¿Qué estás buscando?"
+                            aria-label="Buscar productos"
+                        >
+
+                        <button class="btn btn-primary boton-buscar" type="submit">
+                            <i class="bi bi-search" aria-hidden="true"></i>
+                            Buscar
+                        </button>
+
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Acciones -->
+            <div class="col-lg-4 acciones-header">
+
+                <button class="accion-header" type="button">
+                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                    <span>Elegí entrega</span>
+                </button>
+
+                <button class="accion-header" type="button">
+                    <i class="bi bi-person" aria-hidden="true"></i>
+                    <span>Ingresar</span>
+                </button>
+
+                <a class="accion-header accion-pedidos activo" href="pedido.html" aria-current="page">
+                    <i class="bi bi-box-seam" aria-hidden="true"></i>
+                    <span class="texto-largo">Estado del pedido</span>
+                    <span class="texto-corto">Mi pedido</span>
+                </a>
+
+                <button id="btnAbrirCarrito" class="accion-header carrito-header" type="button">
+                    <i class="bi bi-cart3" aria-hidden="true"></i>
+                    <span>Carrito</span>
+                    <span id="contadorCarrito" class="badge rounded-pill bg-danger" aria-live="polite" hidden>0</span>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<nav class="barra-categorias">
+
+    <div class="barra-categorias-contenido">
+
+        <a class="enlace-categoria oferta-nav" href="categoria.html?c=ofertas" data-categoria="ofertas">▰ OFERTAS</a>
+        <a class="enlace-categoria" href="categoria.html?c=skin-care" data-categoria="skin-care">Skin Care</a>
+        <a class="enlace-categoria" href="categoria.html?c=solares" data-categoria="solares">Solares</a>
+        <a class="enlace-categoria" href="categoria.html?c=maquillaje" data-categoria="maquillaje">Maquillaje</a>
+        <a class="enlace-categoria" href="categoria.html?c=dermocosmetica" data-categoria="dermocosmetica">Dermocosmética</a>
+        <a class="enlace-categoria" href="categoria.html?c=cuidado-personal" data-categoria="cuidado-personal">Cuidado Personal</a>
+        <a class="enlace-categoria" href="categoria.html?c=bebes" data-categoria="bebes">Bebés</a>
+
+    </div>
+
+</nav>
+
+<main class="container mt-4 mb-5 pagina-pedido">
+
+    <nav aria-label="Ubicación" class="miga">
+        <a href="index.html">Inicio</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Estado de tu pedido</span>
+    </nav>
+
+    <!-- Sin pedidos -->
+    <div id="sinPedidos" class="categoria-vacia" hidden>
+        <i class="bi bi-box-seam" aria-hidden="true"></i>
+        <p>Todavía no hiciste pedidos desde este dispositivo.</p>
+        <a href="index.html" class="btn btn-primary">Ver productos</a>
+    </div>
+
+    <!-- Pedido -->
+    <div id="detallePedido" class="pedido-grilla" hidden>
+
+        <section class="pedido-panel pedido-estado" aria-labelledby="tituloPedido">
+            <p class="pedido-gracias">¡Gracias por tu pedido!</p>
+            <h1 id="tituloPedido">Pedido N° <span id="numeroPedido"></span></h1>
+            <p class="pedido-fecha" id="fechaPedido"></p>
+
+            <ol class="pasos-pedido">
+                <li class="paso hecho">
+                    <span class="paso-icono" aria-hidden="true">✓</span>
+                    <div>
+                        <strong>Pedido enviado</strong>
+                        <p>Mandaste el pedido por WhatsApp a la farmacia.</p>
+                    </div>
+                </li>
+                <li class="paso actual">
+                    <span class="paso-icono" aria-hidden="true">2</span>
+                    <div>
+                        <strong>Confirmación de la farmacia</strong>
+                        <p>Te respondemos por WhatsApp con el stock y el total final.</p>
+                    </div>
+                </li>
+                <li class="paso">
+                    <span class="paso-icono" aria-hidden="true">3</span>
+                    <div>
+                        <strong>Preparamos tu pedido</strong>
+                        <p>Lo separamos para que no tengas que esperar.</p>
+                    </div>
+                </li>
+                <li class="paso">
+                    <span class="paso-icono" aria-hidden="true">4</span>
+                    <div>
+                        <strong>Listo para retirar</strong>
+                        <p>Te avisamos por WhatsApp cuando puedas pasar por el local.</p>
+                    </div>
+                </li>
+            </ol>
+
+            <div class="pedido-acciones">
+                <button type="button" id="btnReenviar" class="btn-whatsapp">
+                    <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                    ¿No se abrió WhatsApp? Enviar de nuevo
+                </button>
+                <button type="button" id="btnConsultar" class="btn-seguir-comprando">
+                    Consultar por este pedido
+                </button>
+                <a href="index.html" class="btn-seguir-comprando">Seguir comprando</a>
+            </div>
+        </section>
+
+        <section class="pedido-panel" aria-labelledby="tituloResumen">
+            <h2 id="tituloResumen">Resumen</h2>
+            <ul id="listaPedido" class="lista-pedido"></ul>
+            <div class="carrito-total pedido-total">
+                <span>Total</span>
+                <strong id="totalPedido"></strong>
+            </div>
+            <dl class="datos-pedido">
+                <dt>Entrega</dt><dd>Retiro en el local</dd>
+                <dt>Pago</dt><dd id="pagoPedido"></dd>
+                <dt>A nombre de</dt><dd id="nombrePedido"></dd>
+                <dt id="comentarioPedidoTitulo">Comentario</dt><dd id="comentarioPedido"></dd>
+            </dl>
+        </section>
+
+    </div>
+
+    <!-- Pedidos anteriores -->
+    <section id="pedidosAnteriores" class="pedido-panel pedidos-anteriores" hidden aria-labelledby="tituloAnteriores">
+        <h2 id="tituloAnteriores">Tus pedidos anteriores</h2>
+        <ul id="listaAnteriores"></ul>
+    </section>
+
+</main>
+
+<div id="fondoCarrito"></div>
+
+<section id="carrito">
+
+    <div class="carrito-cabecera">
+
+        <h2>🛒 Mi carrito</h2>
+
+        <button id="btnCerrarCarrito" type="button">
+            ✕
+        </button>
+
+    </div>
+
+    <div id="contenidoCarrito">
+    </div>
+
+    <form id="formPedido" class="form-pedido" hidden novalidate>
+        <h3>Datos para tu pedido</h3>
+
+        <p class="aviso-retiro">
+            <i class="bi bi-shop" aria-hidden="true"></i>
+            Por ahora los pedidos son para <b>retirar en el local</b>.
+        </p>
+
+        <label for="pedidoNombre">Nombre y apellido</label>
+        <input id="pedidoNombre" name="nombre" type="text" autocomplete="name" maxlength="80" required>
+
+        <label for="pedidoTelefono">Teléfono</label>
+        <input id="pedidoTelefono" name="telefono" type="tel" autocomplete="tel" maxlength="20" placeholder="Ej: 11 2345 6789" required>
+
+        <label for="pedidoPago">¿Cómo vas a pagar?</label>
+        <select id="pedidoPago" name="pago" required></select>
+
+        <label for="pedidoComentario">Comentario <span class="opcional">(opcional)</span></label>
+        <textarea id="pedidoComentario" name="comentario" rows="2" maxlength="300" placeholder="Ej: paso a retirar después de las 18 hs"></textarea>
+
+        <p id="errorPedido" class="error-pedido" role="alert" hidden></p>
+
+        <button type="submit" class="btn-whatsapp">
+            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            Enviar pedido por WhatsApp
+        </button>
+
+    </form>
+
+</section>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Nuestro JavaScript -->
+<script src="js/productos.js?v=8"></script>
+<script src="js/catalogo.js?v=8"></script>
+<script src="js/script.js?v=8"></script>
+<script src="js/pedido.js?v=8"></script>
+
+
+</body>
+
+</html>
+

@@ -75,6 +75,35 @@ function guardarCarrito() {
     }
 }
 
+// ---------- Pedidos enviados (se guardan en este dispositivo) ----------
+const CLAVE_PEDIDOS = "farmacia_pedidos";
+
+function cargarPedidos() {
+    try {
+        const lista = JSON.parse(localStorage.getItem(CLAVE_PEDIDOS));
+        return Array.isArray(lista) ? lista : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function guardarPedido(pedido) {
+    const lista = cargarPedidos().filter(function(p) {
+        return p.numero !== pedido.numero;
+    });
+    lista.unshift(pedido);
+
+    try {
+        localStorage.setItem(CLAVE_PEDIDOS, JSON.stringify(lista.slice(0, 20)));
+    } catch (error) {
+        // si no se puede guardar, el pedido igual se envió por WhatsApp
+    }
+}
+
+if (cargarPedidos().length > 0) {
+    document.body.classList.add("hay-pedidos");
+}
+
 // Evita que un nombre con < o > rompa el HTML del carrito
 function escaparHtml(texto) {
     return String(texto).replace(/[&<>"']/g, function(c) {
@@ -450,7 +479,6 @@ mostrarCarrito();
     const pago = form.querySelector("#pedidoPago");
     const comentario = form.querySelector("#pedidoComentario");
     const error = form.querySelector("#errorPedido");
-    const enviado = form.querySelector("#pedidoEnviado");
 
     FORMAS_DE_PAGO.forEach(function(forma) {
         const opcion = document.createElement("option");
@@ -536,16 +564,32 @@ mostrarCarrito();
             // no se pudo guardar, no pasa nada
         }
 
-        const url = "https://wa.me/" + WHATSAPP_PEDIDOS + "?text=" + encodeURIComponent(armarMensaje(numeroPedido()));
-        window.open(url, "_blank", "noopener");
-        enviado.hidden = false;
-    });
+        const numero = numeroPedido();
+        const mensaje = armarMensaje(numero);
+        const url = "https://wa.me/" + WHATSAPP_PEDIDOS + "?text=" + encodeURIComponent(mensaje);
 
-    form.querySelector("#btnVaciarCarrito").addEventListener("click", function() {
+        // Guardar el pedido en este dispositivo para la página "Estado de tu pedido"
+        guardarPedido({
+            numero: numero,
+            fecha: new Date().toISOString(),
+            productos: carrito.map(function(item) {
+                return { articulo: item.articulo, nombre: item.nombre, precio: item.precio, cantidad: item.cantidad };
+            }),
+            total: carrito.reduce(function(total, item) {
+                return total + convertirPrecio(item.precio) * item.cantidad;
+            }, 0),
+            nombre: nombre.value.trim(),
+            pago: pago.value,
+            comentario: comentario.value.trim(),
+            mensaje: mensaje
+        });
+
+        window.open(url, "_blank", "noopener");
+
+        // Vaciar el carrito y pasar a "Estado de tu pedido"
         carrito.splice(0, carrito.length);
+        guardarCarrito();
         comentario.value = "";
-        enviado.hidden = true;
-        mostrarCarrito();
-        cerrarCarrito();
+        location.href = "pedido.html?n=" + encodeURIComponent(numero);
     });
 })();
