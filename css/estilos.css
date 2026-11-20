@@ -411,8 +411,10 @@
 .barra-categorias {
     height: 72px;
     position: relative;
-    z-index: 1000;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
     border-bottom: 1px solid #eeeeee;
     background-color: #ffffff;
 }
@@ -1187,6 +1189,7 @@ header {
 
 .diapo-texto h2 {
     margin: 0 0 6px;
+    color: #ffffff;
     font-size: clamp(1.4rem, 2.4vw, 2.1rem);
     font-weight: 800;
     line-height: 1.1;
@@ -1483,5 +1486,292 @@ header {
 
 .form-pedido[hidden],
 .pedido-enviado[hidden] {
+    display: none;
+}
+
+/* =========================
+   CELULAR Y TABLET: encabezado fijo, carrito siempre a mano
+   ========================= */
+
+.barra-categorias::-webkit-scrollbar {
+    display: none;
+}
+
+/* Barra flotante "Ver carrito" (se crea desde script.js) */
+.barra-carrito {
+    display: none;
+}
+
+/* Aviso "Agregado al carrito" */
+.aviso-agregado {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: max-content;
+    max-width: calc(100vw - 24px);
+    padding: 12px 14px 12px 18px;
+    border-radius: 10px;
+    background-color: #17463d;
+    color: #ffffff;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 16px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.aviso-agregado.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.aviso-agregado span {
+    line-height: 1.25;
+}
+
+.aviso-agregado button {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #17463d;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-seguir-comprando {
+    margin: 0 20px 20px;
+    padding: 10px;
+    border: 1px solid #c9d6cf;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #236558;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (max-width: 991px) {
+    /* Encabezado que queda arriba al bajar: logo + carrito, y el buscador abajo */
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .fila-header {
+        row-gap: 10px;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .fila-header > .col-lg-3 {
+        flex: 1 1 0;
+        width: auto;
+    }
+
+    .fila-header > .col-lg-4 {
+        flex: 0 0 auto;
+        width: auto;
+        order: 2;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .fila-header > .col-lg-5 {
+        order: 3;
+        width: 100%;
+    }
+
+    .marca-simbolo {
+        width: 44px;
+        height: 44px;
+    }
+
+    .marca strong {
+        font-size: 1.05rem;
+    }
+
+    /* Los botones que todavía no hacen nada no se muestran en el celular */
+    .acciones-header .accion-header:not(#btnAbrirCarrito) {
+        display: none;
+    }
+
+    .acciones-header {
+        flex-wrap: nowrap;
+        padding-top: 0;
+    }
+
+    #btnAbrirCarrito {
+        position: relative;
+        flex: 0 0 auto;
+        min-height: 46px;
+        padding: 8px 14px;
+        border-color: #236558;
+        font-weight: 600;
+    }
+
+    #btnAbrirCarrito #contadorCarrito {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        margin: 0;
+        font-size: 0.75rem;
+    }
+
+    .barra-categorias {
+        height: 52px;
+    }
+
+    .barra-categorias-contenido {
+        min-height: 52px;
+        gap: 22px;
+        padding: 0 16px;
+    }
+
+    .barra-categorias a {
+        font-size: 0.95rem;
+    }
+
+    /* Barra flotante abajo con el total del carrito */
+    .barra-carrito {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 950;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 12px;
+        background-color: #236558;
+        color: #ffffff;
+        font-size: 1rem;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+    }
+
+    .barra-carrito.visible {
+        display: flex;
+    }
+
+    .barra-carrito .barra-carrito-ver {
+        padding: 6px 12px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        color: #236558;
+        font-weight: 700;
+    }
+
+    body.con-barra-carrito {
+        padding-bottom: 84px;
+    }
+
+    body.con-barra-carrito .aviso-agregado {
+        bottom: 88px;
+    }
+
+    /* Carrito a pantalla completa */
+    #carrito {
+        width: 100%;
+        max-width: 100%;
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    .carrito-cabecera {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 14px 16px;
+        background-color: #ffffff;
+    }
+
+    #btnCerrarCarrito {
+        width: 44px;
+        height: 44px;
+    }
+
+    .producto-carrito {
+        padding: 14px 16px;
+    }
+
+    .producto-carrito img {
+        width: 72px;
+        height: 72px;
+    }
+
+    .controles-carrito button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    /* 16px evita que el iPhone haga zoom al escribir */
+    .form-pedido input,
+    .form-pedido select,
+    .form-pedido textarea,
+    #campoBusqueda {
+        font-size: 16px;
+    }
+
+    .form-pedido {
+        padding: 16px;
+    }
+
+    /* Productos: dos por fila */
+    .card-img-top {
+        height: 140px;
+        padding: 10px;
+    }
+
+    .card-body {
+        padding: 12px 10px;
+    }
+
+    .card-body h3.card-title {
+        font-size: 1rem;
+    }
+
+    .card-body .fs-4 {
+        font-size: 1.2rem !important;
+    }
+
+    .btn-agregar-carrito {
+        width: 100%;
+    }
+
+    .btn-agregar-carrito.control-cantidad {
+        min-width: 0;
+    }
+
+    .btn-agregar-carrito.control-cantidad span {
+        min-width: 32px;
+        font-size: 1.1rem;
+    }
+
+    .oferta,
+    .descuento {
+        top: 8px;
+        padding: 4px 7px;
+        font-size: 0.7rem;
+    }
+
+    .oferta { left: 8px; }
+    .descuento { right: 8px; }
+}
+
+body.carrito-abierto .barra-carrito,
+body.carrito-abierto .aviso-agregado {
     display: none;
 }

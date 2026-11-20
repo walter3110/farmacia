@@ -57,18 +57,57 @@ const fondoCarrito = document.querySelector("#fondoCarrito");
 
 function abrirCarrito() {
     mostrarCarrito();
+    document.body.classList.add("carrito-abierto");
     panelCarrito?.classList.add("abierto");
     fondoCarrito?.classList.add("abierto");
     document.body.style.overflow = "hidden";
 }
 
 function cerrarCarrito() {
+    document.body.classList.remove("carrito-abierto");
     panelCarrito?.classList.remove("abierto");
     fondoCarrito?.classList.remove("abierto");
     document.body.style.overflow = "";
 }
 
 document.querySelector("#btnAbrirCarrito")?.addEventListener("click", abrirCarrito);
+
+// Barra flotante "Ver carrito" (en el celular, cuando hay productos)
+const barraCarrito = document.createElement("button");
+barraCarrito.type = "button";
+barraCarrito.className = "barra-carrito";
+barraCarrito.innerHTML = '<span class="barra-carrito-info"></span><span class="barra-carrito-ver">Ver carrito</span>';
+barraCarrito.addEventListener("click", abrirCarrito);
+document.body.appendChild(barraCarrito);
+
+// Aviso "Agregado al carrito"
+const avisoAgregado = document.createElement("div");
+avisoAgregado.className = "aviso-agregado";
+avisoAgregado.setAttribute("role", "status");
+avisoAgregado.innerHTML = '<span></span><button type="button">Ver carrito</button>';
+avisoAgregado.querySelector("button").addEventListener("click", function() {
+    avisoAgregado.classList.remove("visible");
+    abrirCarrito();
+});
+document.body.appendChild(avisoAgregado);
+let temporizadorAviso = null;
+
+function avisarAgregado(nombre) {
+    avisoAgregado.querySelector("span").textContent = "✓ " + nombre + " agregado";
+    avisoAgregado.classList.add("visible");
+    clearTimeout(temporizadorAviso);
+    temporizadorAviso = setTimeout(function() {
+        avisoAgregado.classList.remove("visible");
+    }, 2500);
+}
+
+// Botón "Seguir comprando" al final del carrito
+const botonSeguir = document.createElement("button");
+botonSeguir.type = "button";
+botonSeguir.className = "btn-seguir-comprando";
+botonSeguir.textContent = "Seguir comprando";
+botonSeguir.addEventListener("click", cerrarCarrito);
+panelCarrito?.appendChild(botonSeguir);
 document.querySelector("#btnCerrarCarrito")?.addEventListener("click", cerrarCarrito);
 fondoCarrito?.addEventListener("click", cerrarCarrito);
 document.addEventListener("keydown", function(event) {
@@ -158,6 +197,14 @@ function actualizarContadorCarrito() {
 
     const cantidadAnterior = Number(contador.textContent) || 0;
 
+    const totalPlata = carrito.reduce(function(total, producto) {
+        return total + convertirPrecio(producto.precio) * producto.cantidad;
+    }, 0);
+    barraCarrito.querySelector(".barra-carrito-info").textContent =
+        "🛒 " + cantidadTotal + (cantidadTotal === 1 ? " producto" : " productos") + " · $" + totalPlata.toLocaleString("es-AR");
+    barraCarrito.classList.toggle("visible", cantidadTotal > 0);
+    document.body.classList.toggle("con-barra-carrito", cantidadTotal > 0);
+
     contador.textContent = cantidadTotal;
     contador.hidden = cantidadTotal === 0;
 
@@ -236,10 +283,12 @@ function manejarClicCantidad(event, nombre, precio, imagen) {
     if (producto) {
         producto.cantidad++;
         mostrarCarrito();
+        avisarAgregado(nombre);
         return;
     }
 
     agregarProductoAlCarrito(nombre, precio, imagen);
+    avisarAgregado(nombre);
 }
 
 function mostrarCarrito() {
