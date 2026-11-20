@@ -1775,3 +1775,47 @@ body.carrito-abierto .barra-carrito,
 body.carrito-abierto .aviso-agregado {
     display: none;
 }
+
+/* =========================
+   DATOS DEL PRODUCTO: marca, presentación y N° de artículo
+   ========================= */
+
+.marca-producto {
+    margin: 0 0 2px;
+    color: #7fac78;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.presentacion-producto {
+    margin: -4px 0 4px;
+    color: #303030;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.articulo-producto {
+    margin: 8px 0 0;
+    color: #8a9590;
+    font-size: 0.75rem;
+}
+
+.articulo-carrito {
+    display: block;
+    color: #8a9590;
+    font-size: 0.75rem;
+}
+
+/* Botón y precio siempre abajo, aunque falte marca o presentación */
+.tarjeta-producto .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tarjeta-producto .descripcion-producto {
+    margin-bottom: auto;
+    padding-bottom: 10px;
+}

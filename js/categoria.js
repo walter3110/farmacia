@@ -33,55 +33,15 @@
     descripcion.textContent = categoria.descripcion;
     migaActual.textContent = categoria.nombre;
 
-    const productos = PRODUCTOS.filter(function(producto) {
-        if (codigo === "ofertas") {
-            return producto.precioAnterior > producto.precio;
-        }
-        return producto.categorias.includes(codigo);
-    });
+    const productos = productosDeCategoria(codigo);
 
     if (productos.length === 0) {
         vacio.hidden = false;
         return;
     }
 
-    const plata = function(n) {
-        return "$" + n.toLocaleString("es-AR");
-    };
-
-    // Misma estructura de tarjeta que en la página principal,
-    // así funcionan igual el botón "Agregar", el % OFF y el buscador.
+    // Misma tarjeta que en la portada (js/catalogo.js)
     productos.forEach(function(producto) {
-        const enOferta = producto.precioAnterior > producto.precio;
-        const columna = document.createElement("div");
-        columna.className = "col-6 col-md-3";
-        columna.innerHTML = `
-            <div class="card h-100">
-                <div class="producto-imagen">
-                    ${enOferta ? '<span class="badge bg-danger oferta">OFERTA</span><span class="badge bg-warning text-dark descuento"></span>' : ""}
-                    <img class="card-img-top" alt="">
-                </div>
-                <div class="card-body text-center">
-                    <h3 class="card-title"></h3>
-                    <p class="text-muted descripcion-producto"></p>
-                    ${enOferta ? '<p class="text-muted text-decoration-line-through mb-1 precio-anterior"></p>' : ""}
-                    <p class="fs-4 fw-bold precio-oferta"></p>
-                    <button class="btn btn-primary btn-agregar-carrito" type="button">Agregar</button>
-                </div>
-            </div>
-        `;
-
-        // Los textos se cargan con textContent para que ningún dato rompa el HTML
-        const imagen = columna.querySelector("img");
-        imagen.src = producto.imagen;
-        imagen.alt = producto.nombre;
-        columna.querySelector(".card-title").textContent = producto.nombre;
-        columna.querySelector(".descripcion-producto").textContent = producto.descripcion;
-        columna.querySelector(".precio-oferta").textContent = plata(producto.precio);
-        if (enOferta) {
-            columna.querySelector(".precio-anterior").textContent = plata(producto.precioAnterior);
-        }
-
-        lista.appendChild(columna);
+        lista.appendChild(crearTarjetaProducto(producto));
     });
 })();

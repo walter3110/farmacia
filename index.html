@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <!-- Nuestro CSS -->
-<link rel="stylesheet" href="css/estilos.css?v=6">
+<link rel="stylesheet" href="css/estilos.css?v=7">
 
 
 </head>
@@ -246,59 +246,8 @@
     </div>
 
     <div id="carruselPromociones" class="carrusel-promociones">
-        <div class="promociones-pista">
-            <article class="tarjeta-promocion">
-                <span class="etiqueta-producto">Oferta</span>
-                <img src="imagen/shampo.jpg" alt="Shampoo">
-                <h3>Shampoo</h3>
-                <p>Shampoo para uso diario</p>
-                <div class="precios-promocion">
-                    <del>$10.000</del>
-                    <strong>$9.000</strong>
-                    <span>10% OFF</span>
-                </div>
-                <button type="button" class="btn btn-promocion-agregar">Agregar</button>
-            </article>
-
-            <article class="tarjeta-promocion">
-                <span class="etiqueta-producto">Oferta</span>
-                <img src="imagen/crema.webp" alt="Crema corporal">
-                <h3>Crema corporal</h3>
-                <p>Hidratación para la piel</p>
-                <div class="precios-promocion">
-                    <del>$6.900</del>
-                    <strong>$4.200</strong>
-                    <span>39% OFF</span>
-                </div>
-                <button type="button" class="btn btn-promocion-agregar">Agregar</button>
-            </article>
-
-            <article class="tarjeta-promocion">
-                <span class="etiqueta-producto">Oferta</span>
-                <img src="imagen/pañales.webp" alt="Pañales">
-                <h3>Pañales</h3>
-                <p>Pañales para bebés</p>
-                <div class="precios-promocion">
-                    <del>$12.500</del>
-                    <strong>$10.000</strong>
-                    <span>20% OFF</span>
-                </div>
-                <button type="button" class="btn btn-promocion-agregar">Agregar</button>
-            </article>
-
-            <article class="tarjeta-promocion">
-                <span class="etiqueta-producto">Oferta</span>
-                <img src="imagen/jabon.webp" alt="Jabón líquido">
-                <h3>Jabón líquido</h3>
-                <p>Higiene y cuidado personal</p>
-                <div class="precios-promocion">
-                    <del>$4.500</del>
-                    <strong>$3.500</strong>
-                    <span>22% OFF</span>
-                </div>
-                <button type="button" class="btn btn-promocion-agregar">Agregar</button>
-            </article>
-        </div>
+        <!-- Los productos salen de js/productos.js (los que tienen carrusel: true y están en oferta) -->
+        <div class="promociones-pista" id="pistaPromociones"></div>
     </div>
 
 </section>
@@ -380,193 +329,8 @@
         No encontramos productos con esa búsqueda.
     </p>
 
-    <div class="row g-4">
-
-        <!-- Producto 1 -->
-        <div class="col-6 col-md-3">
-
-            <div class="card h-100">
-
-                   <div class="producto-imagen">
-
-        <span class="badge bg-danger oferta">
-            OFERTA
-        </span>
-        <span class="badge bg-warning text-dark descuento">
-
-</span>
-
-                <img src="imagen/shampo.jpg" 
-                    class="card-img-top" 
-                    alt="Shampoo"> 
-                   </div>
-
-            
-                    <div class="card-body text-center">
-
-                    <h3 class="card-title">Shampoo</h3>
-
-                    <p class="text-muted">
-                        Shampoo para uso diario
-                    </p>
-
-                    <p class="text-muted text-decoration-line-through mb-1 precio-anterior">
-    $10.000
-</p>
-
-<p class="fs-4 fw-bold precio-oferta">
-    $9.000
-</p>
-
-                    <button class="btn btn-primary btn-agregar-carrito" type="button">
-                        Agregar
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Producto 2 -->
-        <div class="col-6 col-md-3">
-
-            <div class="card h-100">
-                   <div class="producto-imagen">
-
-        <span class="badge bg-danger oferta">
-            OFERTA
-        </span>
-        <span class="badge bg-warning text-dark descuento">
-   
-</span>
-
-                 <img src="imagen/crema.webp" 
-                    class="card-img-top" 
-                    alt="crema corporal"> 
-
-                   </div>
-
-                <div class="card-body text-center">
-
-                    <h3 class="card-title">Crema corporal</h3>
-
-                    <p class="text-muted">
-                        Hidratación para la piel
-                    </p>
-
-                                      <p class="text-muted text-decoration-line-through mb-1 precio-anterior">
-    $6.900
-</p>
-
-<p class="fs-4 fw-bold precio-oferta">
-    $4.200
-</p>
-
-                    <button class="btn btn-primary btn-agregar-carrito" type="button">
-                        Agregar
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Producto 3 -->
-        <div class="col-6 col-md-3">
-
-            <div class="card h-100">
-
-                   <div class="producto-imagen">
-
-        <span class="badge bg-danger oferta">
-            OFERTA
-        </span>
-        <span class="badge bg-warning text-dark descuento">
-
-</span>
-
-                 <img src="imagen/pañales.webp" 
-                    class="card-img-top" 
-                    alt="pañales"> 
-                   </div>
-
-                <div class="card-body text-center">
-
-                    <h3 class="card-title">Pañales</h3>
-
-                    <p class="text-muted">
-                        Pañales para bebés
-                    </p>
-
-                                       <p class="text-muted text-decoration-line-through mb-1 precio-anterior">
-    $12.500
-</p>
-
-<p class="fs-4 fw-bold precio-oferta">
-    $10.000
-</p>
-
-                    <button class="btn btn-primary btn-agregar-carrito" type="button">
-                        Agregar
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Producto 4 -->
-        <div class="col-6 col-md-3">
-
-            <div class="card h-100">
-                   <div class="producto-imagen">
-
-        <span class="badge bg-danger oferta">
-            OFERTA
-        </span>
-        <span class="badge bg-warning text-dark descuento">
-  
-</span>
-
-                <img src="imagen/jabon.webp" 
-                    class="card-img-top" 
-                    alt="jabón líquido">
-                   </div> 
-
-
-                <div class="card-body text-center">
-
-                    <h3 class="card-title">Jabón líquido</h3>
-
-                    <p class="text-muted">
-                        Higiene y cuidado personal
-                    </p>
-
-                                     <p class="text-muted text-decoration-line-through mb-1 precio-anterior">
-    $4.500
-</p>
-
-<p class="fs-4 fw-bold precio-oferta">
-    $3.500
-</p>
-
-                    <button class="btn btn-primary btn-agregar-carrito" type="button">
-                        Agregar
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
+    <!-- Los productos salen de js/productos.js (los que tienen destacado: true) -->
+    <div id="listaDestacados" class="row g-4"></div>
 
 </section>
 <div id="fondoCarrito"></div>
@@ -625,8 +389,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Nuestro JavaScript -->
-<script src="js/script.js?v=6"></script>
-<script src="js/banners.js?v=6"></script>
+<script src="js/productos.js?v=7"></script>
+<script src="js/catalogo.js?v=7"></script>
+<script src="js/script.js?v=7"></script>
+<script src="js/banners.js?v=7"></script>
 
 
 </body>
